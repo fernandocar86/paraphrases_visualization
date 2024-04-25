@@ -1,0 +1,5 @@
+from os import listdir
+
+def find_files(path, extension):
+    filenames = listdir(path)
+    return [ filename for filename in filenames if filename.endswith( extension ) ]

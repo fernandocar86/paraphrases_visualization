@@ -22,13 +22,15 @@ def count_paraphrases(path):
 # return list of paraphrases    
 def paraphrase_finder(path, file):
     entire_path = path + '/' + file
-    pattern = r'\/<TRANS\+VAL=.*>\s\/<TRANS\+VAL=.*>'
+    pattern = r'\/<TRANS\+VAL=.*?>\s?'
     opened_file = open(entire_path, 'r', encoding='utf-8')
     string = opened_file.read()
     paraphrases_in_file = re.findall(pattern, string, flags=0)
     opened_file.close()
     return paraphrases_in_file
 
+# return tuples. The first member is the clean sentence
+# The following elements of the tuple are the paraphrases
 def paraphrases_tuples(file):
     sent_list = []
     opened_file = open(file, "r")
@@ -52,6 +54,8 @@ def paraphrases_tuples(file):
     opened_file.close()
     return sent_list
 
+# This function builds the paraphrases for 
+# the paraphrases_tuples function
 def paraphrases_cleaner(pattern2, sent, sentences_tuples):
     if re.search(pattern2, sent):
         sent_clean = re.sub(pattern2, '\g<paraphrase>', sent, count=1, flags=0)
